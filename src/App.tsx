@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusCircle, Trash2, ChefHat, Star, Clock } from 'lucide-react';
+import { PlusCircle, Trash2, ChefHat, Star, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 import { Ingredient, Recette } from './types';
 import { recettesDisponibles, substitutions } from './data';
 
@@ -7,6 +7,7 @@ function App() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [nouvelIngredient, setNouvelIngredient] = useState('');
   const [recettesSuggerees, setRecettesSuggerees] = useState<Recette[]>([]);
+  const [recetteActive, setRecetteActive] = useState<string | null>(null);
 
   const ajouterIngredient = () => {
     if (nouvelIngredient.trim()) {
@@ -118,45 +119,34 @@ function App() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-6">
+              <ul className="space-y-2">
                 {recettesSuggerees.map((recette) => (
-                  <div key={recette.id} className="border border-pink-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <img
-                      src={recette.image}
-                      alt={recette.nom}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2 text-pink-800">{recette.nom}</h3>
-                      
-                      <div className="flex items-center space-x-4 text-pink-600 mb-3">
-                        <div className="flex items-center">
+                  <li key={recette.id} className="border border-pink-100 rounded-lg p-4 cursor-pointer bg-pink-50 hover:bg-pink-100" onClick={() => setRecetteActive(recetteActive === recette.id ? null : recette.id)}>
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-semibold text-pink-800">{recette.nom}</span>
+                      {recetteActive === recette.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </div>
+                    {recetteActive === recette.id && (
+                      <div className="mt-4">
+                        <img src={recette.image} alt={recette.nom} className="w-full h-48 object-cover rounded-lg" />
+                        <div className="flex items-center space-x-4 text-pink-600 mb-3">
                           <Clock size={16} className="mr-1" />
                           <span>{recette.tempsPreparation} min</span>
-                        </div>
-                        <div className="flex items-center">
                           <Star size={16} className="mr-1 text-yellow-500" />
                           <span>{recette.note}/5</span>
+                          <span className="px-3 py-1 bg-pink-50 rounded-full text-sm border border-pink-100">{recette.difficulte}</span>
                         </div>
-                        <span className="px-3 py-1 bg-pink-50 rounded-full text-sm border border-pink-100">
-                          {recette.difficulte}
-                        </span>
-                      </div>
-
-                      <div className="space-y-2">
                         <h4 className="font-medium text-pink-800">Ingrédients:</h4>
-                        <ul className="list-disc list-inside text-pink-600">
-                          {recette.ingredients.map((ing) => (
-                            <li key={ing.id}>
-                              {ing.quantite} {ing.unite} {ing.nom}
-                            </li>
+                        <ul className="mt-2 text-pink-700 list-disc pl-5">
+                          {recette.ingredients.map((ing, index) => (
+                            <li key={index}>{ing.nom} - {ing.quantite} {ing.unite}</li>
                           ))}
                         </ul>
                       </div>
-                    </div>
-                  </div>
+                    )}
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
           </section>
         </div>
