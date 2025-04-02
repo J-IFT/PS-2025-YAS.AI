@@ -16,7 +16,9 @@ Projet pour open innovation (en back-up).
 ### 🐱 Notre projet :
 
 Hébergement : Vercel
+
 Local : npm install puis npm run dev
+
 YASAI = Légume en japonais
 
 Le projet YASAI est une application dédiée à l'optimisation de la gestion des repas. Elle permet aux utilisateurs de créer des recettes à partir de leurs restes alimentaires en utilisant une base de données d'ingrédients et de recettes. Le but de l'application est d'aider les utilisateurs à réduire le gaspillage alimentaire en leur offrant des solutions simples et rapides pour utiliser ce qu'ils ont déjà dans leur cuisine.
